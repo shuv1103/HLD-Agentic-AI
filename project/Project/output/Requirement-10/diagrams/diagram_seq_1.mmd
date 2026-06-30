@@ -1,0 +1,10 @@
+sequenceDiagram
+actor User
+participant DashboardService
+participant DataWarehouse
+participant VisualizationTool
+User->>DashboardService: Request Dashboard
+DashboardService->>DataWarehouse: Query Data
+DataWarehouse->>DashboardService: Return Data
+DashboardService->>VisualizationTool: Generate Visualization
+VisualizationTool->>User: Display Dashboard

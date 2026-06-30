@@ -1,0 +1,9 @@
+sequenceDiagram
+actor Customer
+participant ApplicationService
+participant DocumentManagementService
+Customer->>ApplicationService: Upload Supporting Documents
+ApplicationService->>DocumentManagementService: Send Documents for Processing
+DocumentManagementService->>DocumentManagementService: Perform OCR and Validation
+DocumentManagementService->>ApplicationService: Return Verification Results
+ApplicationService->>ApplicationService: Update Application Status

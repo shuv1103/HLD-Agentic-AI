@@ -1,0 +1,172 @@
+<style>
+.chat-container {
+  position: fixed;
+  bottom: 10px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 20px;
+  z-index: 999999;
+  pointer-events: none;
+  font-family: Inter, sans-serif;
+}
+.chat-container * { pointer-events: auto; }
+
+.floating-btn {
+  
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(180deg,#2563eb,#1d4ed8);
+  color: white;
+  font-size: 26px;
+  border: none;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-window {
+  display: none;
+  flex-direction: column;
+  width: 370px;
+  height: 450px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  margin-bottom: 70px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  
+}
+
+.chat-header {
+  background: linear-gradient(90deg,#2563eb,#1d4ed8);
+  color: white;
+  padding: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background: #f9fafb;
+  font-size: 14px;
+}
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+.chat-input input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  outline: none;
+}
+.chat-input button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+.message {
+  margin: 8px 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  max-width: 80%;
+}
+.user-msg {
+  background: #2563eb;
+  color: white;
+  align-self: flex-end;
+}
+.bot-msg {
+  background: #e5e7eb;
+  color: black;
+  align-self: flex-start;
+}
+</style>
+
+<div class="chat-container">
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">Gemini Chatbot 💬</div>
+    <div class="chat-body" id="chatBody"></div>
+    <div class="chat-input">
+      <input id="chatInput" type="text" placeholder="Type your message..." />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+  <button class="floating-btn" id="toggleBtn">💬</button>
+</div>
+
+<script>
+const API_URL = "http://localhost:8000/chat";
+const sessionId = "{{SESSION_ID}}"; // injected from Streamlit
+
+const chatWindow = document.getElementById("chatWindow");
+const toggleBtn = document.getElementById("toggleBtn");
+const chatBody = document.getElementById("chatBody");
+const sendBtn = document.getElementById("sendBtn");
+const chatInput = document.getElementById("chatInput");
+
+// Restore previous chat
+let chatHistory = JSON.parse(sessionStorage.getItem("chatHistory") || "[]");
+window.addEventListener("load", () => {
+  chatHistory.forEach(msg => addMessage(msg.text, msg.sender));
+});
+
+toggleBtn.addEventListener("click", () => {
+  chatWindow.style.display = (chatWindow.style.display === "flex") ? "none" : "flex";
+  chatWindow.style.flexDirection = "column";
+});
+
+async function sendMessage() {
+  const userMsg = chatInput.value.trim();
+  if (!userMsg) return;
+
+  addMessage(userMsg, "user");
+  chatInput.value = "";
+
+  chatHistory.push({ sender: "user", text: userMsg });
+  sessionStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+
+  addMessage("Thinking...", "bot");
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userMsg, session_id: sessionId }),
+    });
+
+    const data = await res.json();
+    chatBody.lastChild.textContent = data.reply;
+
+    chatHistory.push({ sender: "bot", text: data.reply });
+    sessionStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+  } catch (err) {
+    chatBody.lastChild.textContent = "⚠️ Error connecting to Gemini server.";
+  }
+}
+
+function addMessage(msg, sender) {
+  const div = document.createElement("div");
+  div.className = `message ${sender}-msg`;
+  div.textContent = msg;
+  chatBody.appendChild(div);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+sendBtn.addEventListener("click", sendMessage);
+chatInput.addEventListener("keypress", e => {
+  if (e.key === "Enter") sendMessage();
+});
+</script>
+  

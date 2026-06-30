@@ -1,0 +1,6 @@
+sequenceDiagram
+actor RepaymentModule
+participant InterestPricingModule
+RepaymentModule->>InterestPricingModule: Request penalty amount (loan ID, due date, payment date)
+InterestPricingModule->>InterestPricingModule: Calculate penalty amount based on configuration
+InterestPricingModule->>RepaymentModule: Return penalty amount

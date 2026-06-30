@@ -1,0 +1,14 @@
+sequenceDiagram
+actor Customer
+participant ApplicationService
+participant CreditBureau
+participant RiskEngine
+participant NotificationService
+Customer->>ApplicationService: Submit Loan Application
+ApplicationService->>CreditBureau: Request Credit Report
+CreditBureau->>ApplicationService: Return Credit Report
+ApplicationService->>RiskEngine: Request Risk Score
+RiskEngine->>ApplicationService: Return Risk Score
+ApplicationService->>ApplicationService: Determine Approval Decision
+ApplicationService->>NotificationService: Send Application Status Update
+NotificationService->>Customer: Notify Application Status

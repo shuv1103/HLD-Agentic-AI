@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <style>
+    :root { --pad: 24px; }
+    @media print { a[href]:after { content: ""; } }
+    body{margin:var(--pad);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;line-height:1.4}
+    h1{margin-top:0}
+    .mermaid{max-width:100%; margin:16px 0;}
+    .toolbar{position:sticky;top:0;background:#fff;padding-bottom:8px;margin-bottom:16px;border-bottom:1px solid #eee}
+    .btn{padding:8px 12px;border:1px solid #ddd;border-radius:8px;background:#f7f7f7;cursor:pointer}
+    .meta{color:#555;margin-top:12px}
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button class="btn" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+  <h1>Requirement-10 – HLD Diagrams</h1>
+  <h3 style='margin:8px 0'>diagram_class</h3>
+<div class='mermaid'>
+classDiagram
+class Customer {
+  string customer_id
+  string demographics
+  string behavior
+  string risk_profile
+}
+class Loan {
+  string loan_id
+  string customer_id
+  string loan_amount
+  string interest_rate
+  string loan_status
+}
+class Transaction {
+  string transaction_id
+  string customer_id
+  string transaction_date
+  string transaction_amount
+  string transaction_type
+}
+class Dashboard {
+  string dashboard_id
+  string dashboard_name
+  string kpis
+  string user_roles
+  string refresh_rate
+}
+class Alert {
+  string alert_id
+  string alert_type
+  string threshold
+  string severity
+  string timestamp
+}
+Loan --> Customer : belongs to
+Transaction --> Customer : belongs to
+Dashboard --> Customer : uses
+Alert --> Customer : monitors
+Alert --> Loan : monitors
+</div>
+<h3 style='margin:8px 0'>diagram_seq_1</h3>
+<div class='mermaid'>
+sequenceDiagram
+actor User
+participant DashboardService
+participant DataWarehouse
+participant VisualizationTool
+User->>DashboardService: Request Dashboard
+DashboardService->>DataWarehouse: Query Data
+DataWarehouse->>DashboardService: Return Data
+DashboardService->>VisualizationTool: Generate Visualization
+VisualizationTool->>User: Display Dashboard
+</div>
+<h3 style='margin:8px 0'>diagram_seq_2</h3>
+<div class='mermaid'>
+sequenceDiagram
+actor Scheduler
+participant PredictiveService
+participant DataLake
+participant MLFramework
+participant AlertingSystem
+Scheduler->>PredictiveService: Trigger Prediction Job
+PredictiveService->>DataLake: Fetch Data
+DataLake->>PredictiveService: Return Data
+PredictiveService->>MLFramework: Execute Model
+MLFramework->>PredictiveService: Return Prediction
+PredictiveService->>AlertingSystem: Send Alert (if threshold exceeded)
+</div>
+  <div class="meta">Generated</div>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, securityLevel: "loose", theme: "default" });
+  await mermaid.run();
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+classDiagram
+class Loan {
+  string loan_id
+  string principal_amount
+  string interest_rate
+  string loan_term
+}
+class InterestRate {
+  string rate_id
+  string base_rate
+  string margin
+  string adjustment_factor
+}
+class Customer {
+  string customer_id
+  string credit_score
+  string risk_tier
+  string loan_product
+}
+class Penalty {
+  string penalty_id
+  string penalty_type
+  string penalty_amount
+  string penalty_date
+}
+class Campaign {
+  string campaign_id
+  string start_date
+  string end_date
+  string discounted_rate
+}
+class CalculateInterestRate
+class CalculatePenalty
+class GetApplicableRate
+Loan --> InterestRate : has
+Loan --> Customer : belongs to
+Loan --> Penalty : incurs
+Customer --> InterestRate : determines
+Campaign --> InterestRate : applies
+CalculateInterestRate --> InterestRate : uses
+CalculatePenalty --> Penalty : creates
+GetApplicableRate --> InterestRate : retrieves

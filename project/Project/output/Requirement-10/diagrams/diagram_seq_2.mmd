@@ -1,0 +1,12 @@
+sequenceDiagram
+actor Scheduler
+participant PredictiveService
+participant DataLake
+participant MLFramework
+participant AlertingSystem
+Scheduler->>PredictiveService: Trigger Prediction Job
+PredictiveService->>DataLake: Fetch Data
+DataLake->>PredictiveService: Return Data
+PredictiveService->>MLFramework: Execute Model
+MLFramework->>PredictiveService: Return Prediction
+PredictiveService->>AlertingSystem: Send Alert (if threshold exceeded)

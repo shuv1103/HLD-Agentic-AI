@@ -1,0 +1,9 @@
+sequenceDiagram
+actor LoanApplicationModule
+participant InterestPricingModule
+participant CreditScoringEngine
+LoanApplicationModule->>InterestPricingModule: Request interest rate (customer ID, loan amount)
+InterestPricingModule->>CreditScoringEngine: Request credit score (customer ID)
+CreditScoringEngine->>InterestPricingModule: Return credit score
+InterestPricingModule->>InterestPricingModule: Calculate interest rate based on risk profile
+InterestPricingModule->>LoanApplicationModule: Return interest rate

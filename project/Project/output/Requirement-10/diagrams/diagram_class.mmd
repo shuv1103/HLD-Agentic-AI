@@ -1,0 +1,40 @@
+classDiagram
+class Customer {
+  string customer_id
+  string demographics
+  string behavior
+  string risk_profile
+}
+class Loan {
+  string loan_id
+  string customer_id
+  string loan_amount
+  string interest_rate
+  string loan_status
+}
+class Transaction {
+  string transaction_id
+  string customer_id
+  string transaction_date
+  string transaction_amount
+  string transaction_type
+}
+class Dashboard {
+  string dashboard_id
+  string dashboard_name
+  string kpis
+  string user_roles
+  string refresh_rate
+}
+class Alert {
+  string alert_id
+  string alert_type
+  string threshold
+  string severity
+  string timestamp
+}
+Loan --> Customer : belongs to
+Transaction --> Customer : belongs to
+Dashboard --> Customer : uses
+Alert --> Customer : monitors
+Alert --> Loan : monitors

@@ -1,6 +1,6 @@
 # Agentic HLD Generator
 
-This project turns a Product Requirements Document (a PRD PDF) into a complete High-Level Design: structured markdown and HTML, Mermaid class and sequence diagrams rendered to images, a risk heatmap, and a quality score for the generated design. It's built as a six-stage agent pipeline on **LangGraph**, with **Google Gemini** doing the reasoning and a small **scikit-learn / XGBoost** layer for scoring HLD quality.
+This project turns a Product Requirements Document (a PRD PDF) into a complete High-Level Design: structured markdown and HTML, Mermaid class and sequence diagrams rendered to images, a risk heatmap, and a quality score for the generated design. It's built as a six-stage agent pipeline on **LangGraph**, with **Google Gemini** doing the reasoning and  *ML(scikit-learn)* layer for scoring HLD quality.
 
 The idea is to treat HLD authoring as a staged pipeline rather than one big prompt. A requirements PDF is parsed, then passed through a sequence of specialised agents that each own one design concern — security, domain modelling, behaviour, diagrams — accumulating their results on a shared, typed state object. The final stage composes the design document and renders the diagrams.
 

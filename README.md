@@ -70,10 +70,10 @@ Sample PRDs live in `data/` (`Requirement-1.pdf` … `Requirement-10.pdf`). Pick
 
 The system is organised into five cooperating layers: an interface layer (Streamlit + FastAPI), an orchestration layer that compiles and runs a LangGraph state machine, the six-stage agent pipeline, the external model and renderer dependencies, and the input PRDs and generated artifacts.
 
-```
+
 <img width="738" height="522" alt="image" src="https://github.com/user-attachments/assets/a5993683-c533-40c3-996e-9d36dc8ffa9c" />
 
-```
+
 
 ## Pipeline lifecycle
 
@@ -108,10 +108,10 @@ Each design stage is implemented by an agent under `agent/`. All agents inherit 
 
 ## State model
 
-```
+
 <img width="1037" height="635" alt="image" src="https://github.com/user-attachments/assets/3a32f185-ec03-4a2e-97d5-35fe1b4d0af9" />
 
-```
+
 
 State is composed of typed Pydantic sub-models, each mirroring an agent's output contract:
 

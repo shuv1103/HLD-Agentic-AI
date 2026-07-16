@@ -41,8 +41,7 @@ pip install -r requirements.txt
 Create a `.env` with your Gemini credentials:
 
 ```env
-# optional
-GEMINI_MODEL=gemini-2.0-flash
+OPENAI/GEMINI_MODEL=your-model-choice (I used gemini)
 KROKI_URL=https://kroki.io
 ```
 

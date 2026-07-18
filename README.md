@@ -78,8 +78,6 @@ Each stage is an agent under `agent/`, all inheriting `BaseAgent`, which central
 
 > **`BaseAgent` — resilient LLM calls.** `call_llm` parses output in three passes (direct `json.loads`, fenced-block extraction, first balanced brace span). If all fail and retries are enabled, it re-prompts at temperature 0 for JSON only. Every agent fixes its role and exact output schema in a system prompt and returns empty fields rather than inventing content when the PRD is silent.
 
-Paste each agent's workflow diagram in the right-hand cell.
-
 ---
 
 ### 1. PDF Extraction Agent · `agent/pdf_agent.py`
